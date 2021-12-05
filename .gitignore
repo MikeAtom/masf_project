@@ -1,0 +1,7 @@
+config.ini
+*.png
+*.usr
+/files
+/modules
+!/modules/echo.py
+!/modules/example.py
