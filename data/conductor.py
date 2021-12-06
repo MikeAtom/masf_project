@@ -78,7 +78,6 @@ def command(message):
         case '/start':
             if read_profile(message.from_user.id, 'Conductor', 'phase') != '':
                 write_profile(message.from_user.id, 'Conductor', 'phase', 'auth')
-                command_used = True
         case '/reset':
             write_profile(message.from_user.id, 'Conductor', 'phase', '')
             command_used = True
