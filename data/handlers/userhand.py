@@ -3,81 +3,43 @@ from data.scripts.check_exist import check
 import configparser
 
 folder = './data/users'
-check(folder)
+check(folder, True)
 
 
-def create_profile(message):
+def create_profile(user_id):
     profile = configparser.ConfigParser()
-    user_id = message.from_user.id
-    username = message.from_user.username
-    chat_id = message.chat.id
 
     file_path = folder + '/' + str(user_id) + '.usr'
 
-    profile.add_section("Info")
-    profile.set("Info", "username", username)
-    profile.set("Info", "id", str(user_id))
-    profile.set("Info", "chat_id", str(chat_id))
-    profile.add_section("Data")
-    profile.set("Data", "phase", "")
-    profile.set("Data", "module", "")
+    profile.add_section("Conductor")
+    profile.set('Conductor', "phase", "")
+    profile.set('Conductor', "module", "")
 
     with open(file_path, "w") as config_file:
         profile.write(config_file)
 
 
-def check_profile(message):
-    file_path = folder + '/' + str(message.from_user.id) + '.usr'
+def check_profile(user_id):
+    file_path = folder + '/' + str(user_id) + '.usr'
     if not check(file_path):
-        create_profile(message)
+        create_profile(user_id)
     return file_path
 
 
-def check_phase(message):
+def read_profile(user_id, section, value):
     profile = configparser.ConfigParser()
-    profile.read(check_profile(message))
+    profile.read(check_profile(user_id))
 
-    return profile.get("Data", "phase")
+    return profile.get(section, value)
 
 
-def set_phase(message, is_set):
-    """
-            Sets phase to entered value
-            :param message:
-            :param is_set: Change to
-                """
+def write_profile(user_id, section, value, set_to):
     profile = configparser.ConfigParser()
-    file_path = check_profile(message)
+    file_path = check_profile(user_id)
 
     profile.read(file_path)
-    profile.set("Data", "phase", is_set)
+    profile.set(section, value, set_to)
 
     with open(file_path, "w") as config_file:
         profile.write(config_file)
 
-    logger('Phase changed to ' + is_set, 'PHAS')
-
-
-def check_mod(message):
-    profile = configparser.ConfigParser()
-    profile.read(check_profile(message))
-
-    return profile.get("Data", "module")
-
-
-def set_mod(message, is_set):
-    """
-            Sets phase to entered value
-            :param message:
-            :param is_set: Change to
-                """
-    profile = configparser.ConfigParser()
-    file_path = check_profile(message)
-
-    profile.read(file_path)
-    profile.set("Data", "module", is_set)
-
-    with open(file_path, "w") as config_file:
-        profile.write(config_file)
-
-    logger('Module changed to ' + is_set, 'MODL')

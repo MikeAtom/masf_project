@@ -1,7 +1,11 @@
 config.ini
 *.png
 *.usr
+__pycache__/
+/logs
+/.idea
 /files
 /modules
+!/modules/discord_music.py
 !/modules/echo.py
 !/modules/example.py

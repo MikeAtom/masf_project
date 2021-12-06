@@ -93,7 +93,3 @@ def logger(message, stage=False, *args):
     except:
         print('No logging script is present')
 
-
-def sender(message, callback=False):
-    import data.conductor as conductor
-    conductor.logic(message, callback)
