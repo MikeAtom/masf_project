@@ -33,9 +33,12 @@ def read_profile(user_id, section, value):
     return profile.get(section, value)
 
 
-def write_profile(user_id, section, value, set_to):
+def write_profile(user_id, section, value, set_to, section_create=False):
     profile = configparser.ConfigParser()
     file_path = check_profile(user_id)
+
+    if section_create:
+        profile.add_section(section)
 
     profile.read(file_path)
     profile.set(section, value, set_to)

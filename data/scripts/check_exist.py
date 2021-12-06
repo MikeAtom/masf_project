@@ -1,12 +1,7 @@
-from os import path, mkdir
+from os import path, makedirs
 
 
 def check(folder, create=False):
-    if path.exists(folder):
-        exist = True
-    else:
-        exist = False
-
-    if create and not exist:
-        mkdir(folder)
-    return exist
+    if create and not path.exists(folder):
+        makedirs(folder)
+    return path.exists(folder)

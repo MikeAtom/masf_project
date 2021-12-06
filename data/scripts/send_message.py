@@ -1,9 +1,9 @@
 from data.handlers.apihand import bot, types
 
-def send_message(chat_id, content, file=None, caption='', keyboard=None, buttons=[]):
+def send_message(user_id, content, content_type='text', caption='', keyboard=None, buttons=[]):
     """
             Sets phase to entered value
-            :param chat_id: Chat ID
+            :param user_id: Chat ID
             :param content: Message content
             :param file: File type (Optional)
             :param keyboard: 'inline' or 'reply' (Optional)
@@ -41,26 +41,23 @@ def send_message(chat_id, content, file=None, caption='', keyboard=None, buttons
     else:
         markup = types.ReplyKeyboardRemove(selective=False)
 
-    if type(content) is str and file is None:
-        file = 'text'
-    elif file is None:
-        file = 'document'
+    if content_type == 'text':
+        bot.send_message(user_id, content, reply_markup=markup)
+    else:
+        content = open(content, 'rb')
+        match content_type:
+            case 'document':
+                bot.send_document(user_id, content, caption=caption, reply_markup=markup)
+            case 'photo':
+                bot.send_photo(user_id, content, caption=caption, reply_markup=markup)
+            case 'video':
+                bot.send_video(user_id, content, caption=caption, reply_markup=markup)
+            case 'audio':
+                bot.send_audio(user_id, content, caption=caption, reply_markup=markup)
+            case 'sticker':
+                bot.send_sticker(user_id, content, reply_markup=markup)
+            case 'voice':
+                bot.send_voice(user_id, content, reply_markup=markup)
+            # case 'location':
 
-    match file:
-        case 'text':
-            bot.send_message(chat_id, content, reply_markup=markup)
-        case 'document':
-            bot.send_document(chat_id, content, caption=caption, reply_markup=markup)
-        case 'photo':
-            bot.send_photo(chat_id, content, caption=caption, reply_markup=markup)
-        case 'video':
-            bot.send_video(chat_id, content, caption=caption, reply_markup=markup)
-        case 'audio':
-            bot.send_audio(chat_id, content, caption=caption, reply_markup=markup)
-        case 'sticker':
-            bot.send_sticker(chat_id, content, reply_markup=markup)
-        case 'voice':
-            bot.send_voice(chat_id, content, reply_markup=markup)
-        # case 'location':
-
-        # case 'contact':
+            # case 'contact':

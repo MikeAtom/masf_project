@@ -1,5 +1,6 @@
 config_path = 'config.ini'
 modules_path = './modules'
+temp_path = './files/temp'
 
 
 def initial():
@@ -59,6 +60,8 @@ def apihand_setup():
     try:
         global apihand
         import data.handlers.apihand as apihand
+
+        apihand.init(token, temp_path)
 
         logger('API handler loaded successfully', 'INIT')
     except:
