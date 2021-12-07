@@ -62,12 +62,17 @@ def post():
         if message.text[0] != '/':
             content_type = message.content_type
             user_id = message.from_user.id
-            full_message = message
 
-            conductor.logic(user_id, message.text, content_type, full_message)
+            conductor.logic(user_id, message.text, content_type, message)
 
     @bot.callback_query_handler(func=lambda call: True)
     def ringer(call):
-        conductor.logic(call)
+
+        content = call.data
+        content_type = 'call'
+        user_id = call.from_user.id
+
+        conductor.logic(user_id, content, content_type, call)
+
 
     bot.infinity_polling()
