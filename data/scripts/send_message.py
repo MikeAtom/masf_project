@@ -5,7 +5,8 @@ def send_message(user_id, content, content_type='text', caption='', keyboard=Non
             Sets phase to entered value
             :param user_id: Chat ID
             :param content: Message content
-            :param file: File type (Optional)
+            :param content_type: Message content type
+            :param caption: Message caption
             :param keyboard: 'inline' or 'reply' (Optional)
             :param buttons: for inline - [text, callback data], for reply - text (Optional)
                     """
@@ -61,3 +62,6 @@ def send_message(user_id, content, content_type='text', caption='', keyboard=Non
             # case 'location':
 
             # case 'contact':
+
+def delete_message(user_id, message_id):
+    bot.delete_message(user_id, message_id)

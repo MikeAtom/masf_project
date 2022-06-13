@@ -43,6 +43,6 @@ def write_profile(user_id, section, value, set_to, section_create=False):
     profile.read(file_path)
     profile.set(section, value, set_to)
 
-    with open(file_path, "w") as config_file:
+    with open(file_path, "w", encoding='utf-8', errors='ignore') as config_file:
         profile.write(config_file)
 

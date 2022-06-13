@@ -10,7 +10,6 @@ master = core.master
 dialog = False
 
 
-
 def logic(user_id, content, content_type, full_message=None, caption='', command=False):
     global dialog
     if not command:
@@ -75,9 +74,11 @@ def command(user_id, command):
     global command_used
     match command:
         case '/start':
-            if read_profile(user_id, 'Conductor', 'phase') != '':
+            if read_profile(user_id, 'Conductor', 'phase') == '':
                 write_profile(user_id, 'Conductor', 'phase', 'auth')
-            command_used=False
+            else:
+                send_message(user_id, "I'm already here")
+            command_used = False
         case '/reset':
             write_profile(user_id, 'Conductor', 'phase', '')
             command_used = True
@@ -94,28 +95,14 @@ def command(user_id, command):
             command_used = True
         case '/reload':
             core.module_setup()
-            command_used=False
+            command_used = False
         case '/quit':
             if read_profile(user_id, 'Conductor', 'phase') == 'module':
                 send_message(user_id, 'Quiting')
-                sleep(3)
+                sleep(1)
                 write_profile(user_id, 'Conductor', 'phase', 'auth')
             else:
                 send_message(user_id, "Don't try to trick me! You are not in the module!!")
-            command_used=False
+            command_used = False
 
     logic(user_id, command, 'text', command=command_used)
-
-
-"""
-@bot.message_handler(commands=['start', 'reset'])
-def commander(message):
-        match message.text:
-            case '/start':
-                set_phase(user_id, 'auth')
-                core.sender(message)
-            case '/reset':
-                bot.send_message(user_id, 'Fine. Back to the beginning... ', reply_markup=markup)
-                core.sender(message)
-                set_phase(user_id, 'auth')
-"""
