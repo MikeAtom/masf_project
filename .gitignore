@@ -9,4 +9,5 @@ __pycache__/
 !/modules/discord_music.py
 !/modules/echo.py
 !/modules/example.py
+!/modules/shop.py
 config.ini
